@@ -1,0 +1,1 @@
+module.exports.generateRandomNumberService = (start, end) => Math.floor(Math.random() * (start - end + 1)) + end;
