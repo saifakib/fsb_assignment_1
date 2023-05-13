@@ -1,4 +1,4 @@
-const { generateRandomNumberService } = require("./services");
+const { generateRandomNumberService, generateAProfileService } = require("./services");
 
 
 module.exports.randonNumberController = (req, res) => {
@@ -19,4 +19,28 @@ module.exports.randonNumberController = (req, res) => {
         message: err.message
       })
     }
-  }
+}
+
+module.exports.generateProfileController = (req, res) => {
+    try {
+        const { properties } = req.query;
+
+        const splitProperties = properties.split(",").map((item) => item.toLowerCase());
+
+        let error = {};
+        if (!splitProperties.length > 0) {
+            error = new Error("Please give some properties");
+            error.statusCode = 400
+            throw error;
+        }
+
+        return res.status(200).json(generateAProfileService(splitProperties))
+
+    } catch (err) {
+      return res.status(err.statusCode || 500).json({
+        status: err.statusCode || 500,
+        message: err.message
+      })
+    }
+}
+
